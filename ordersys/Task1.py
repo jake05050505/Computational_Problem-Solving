@@ -2,7 +2,6 @@
 
 from memory_profiler import profile
 from prettytable import PrettyTable
-from collections import OrderedDict
 
 viewinventory = PrettyTable(['1: Adhesive tape','2: Alcohol wipes','3: Antihistamine tablets','4: Elastic Bandages','5: Epinephrine Injector (EpiPen)']) # Inventory
 viewinventory.add_row(['6: Gloves (latex)','7: Gloves (non-latex)','8: Hydrogen peroxide solṉ','9: Instant cold packs','10: Paracetomol & Ibuprofen'], divider=True)
@@ -11,6 +10,7 @@ viewinventory.add_row(['11: Plasters','12: Scissors','13: Sterile Gauze Pads','1
 inventory={1:'Adhesive tape',2:'Alcohol wipes',3:'Antihistamine tablets',4:'Elastic Bandages',5:'Epinephrine Injector (EpiPen)',6: 'Gloves (latex)',7:'Gloves (non-latex)',8:'Hydrogen peroxide soln',9:'Instant cold packs',10:'Paracetomol & Ibuprofen',11: 'Plasters',12:'Scissors',13:'Sterile Gauze Pads',14:'Thermometers',15:'Tweezers'}
 
 orders={} # Initialize new dictionaries to prevent errors
+s_orders={}
 
 def fetch():
     with open('orderslist.txt','r') as f:       # reads orderslist.txt and converts into machine-readable format
@@ -28,10 +28,11 @@ def findnextindex():    # Find next available index in orders to add an value to
             if index not in orders:
                 print(index)
                 return index
+        return index+1
     except KeyError:
-        print('KeyError')
+        print('fni() KeyError')
     except UnboundLocalError:
-        print('UnboundLocalError')
+        print('fni() UnboundLocalError')
 
 def createorder(items):
     id = findnextindex()
@@ -75,22 +76,22 @@ def printall(): # Print orders dictionary
         print('printall',i,orders[i])
 
 def writeto():
-    s_orders = OrderedDict(sorted(orders.items()))
-    with open('orderslist.txt','w')as f:
+    print(f'orders: {orders} ')
+    print(f'orders.items {orders.items()}')
+    s_orders = dict(sorted(orders.items()))
+    print(f's_orders printed = {s_orders}')
+    with open('orderslist.txt','w') as f:
         for i in s_orders:
-            if s_orders[i]!=None:
-                f.write(str(i)+':'+s_orders[i][0]+', ')
-                f.write(s_orders[i][1]+', ')
-                f.write(s_orders[i][2]+', ')
-                f.write(s_orders[i][3]+', ')
-                f.write(s_orders[i][4])
-                f.write('\n')
-            else: continue
+            f.write(str(i)+':'+s_orders[i][0]+', ')
+            f.write(s_orders[i][1]+', ')
+            f.write(s_orders[i][2]+', ')
+            f.write(s_orders[i][3]+', ')
+            f.write(s_orders[i][4])
+            f.write('\n')
 
 #@profile
 def main():
-    fetch()
-    choice = input('Menu\n[1]Create Order\n[2]Modify Order\n[3]View Order\n[4]Delete Order\n[0]Cancel\n>>>')
+    choice = input('Menu\n[1]Create Order\n[2]Modify Order\n[3]Delete Order\n[4]View Order\n[0]Cancel\n>>>')
 
     if choice == '1': # Create Order
         items=[]
@@ -102,24 +103,25 @@ def main():
 
     elif choice == '2': # Modify Order
         index = int(input('Please enter your order ID\n>>>'))
+        print(orders[index])
         items=getitems()
         modifyorder(index,items)
         writeto()
 
-    elif choice == '3': # View Order
-        index=getindex()
-        print(index,orders[index])
-
-    elif choice == '4': # Delete Order
+    elif choice == '3': # Delete Order
         index = int(input('Please enter your order ID\n>>>'))
-        confirmation = str(input(f'Please type \'CONFIRM\' to  delete order {index}\n>>>'))
+        confirmation = str(input(f'Please type \"CONFIRM\" to  delete order {index}\n>>>'))
         if confirmation == 'CONFIRM':
-            orders[index]=None
+            orders.pop(index)
             print(f'Order {index} was deleted.')
         else: print(f'Order {index} was not deleted.')
         writeto()
 
-    elif choice == '5':
+    elif choice == '4': # View Order
+        index=getindex()
+        print(index,orders[index])
+
+    elif choice == '5': # skip to print orders
         pass
 
     elif choice == '0':
@@ -129,8 +131,8 @@ def main():
         print('Invalid choice')
         main()
     
-    for i in orders:
-        print(orders.items())
+    print(orders.items())
 
 if __name__ == '__main__':
+    fetch()
     main()
