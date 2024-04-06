@@ -1,3 +1,0 @@
-0:Instant cold packs, Thermometers, Alcohol wipes, Sterile Gauze Pads, Adhesive tape
-1:Alcohol wipes, Elastic Bandages, Gloves (latex), Hydrogen peroxide soln, Paracetomol & Ibuprofen
-2:Test 2, Thermometers, Alcohol wipes, Sterile Gauze Pads, Adhesive tape
