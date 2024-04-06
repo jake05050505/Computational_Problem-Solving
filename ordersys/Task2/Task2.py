@@ -1,5 +1,3 @@
-#todo: sort orders list before printing - add to writeto() or fetch()
-
 from memory_profiler import profile
 from prettytable import PrettyTable
 
@@ -26,22 +24,15 @@ def findnextindex():    # Find next available index in orders to add an value to
     try:                # this try,except statement returns 0 if there are no pairs in the dictionary to check, used for debugging as the dictionary should never be empty (it should contain index=None for empty entries)
         for index in range(len(orders)):
             if index not in orders:
-                print(index)
                 return index
         return index+1
-    except KeyError:
+    except KeyError: # this error should NEVER be raised, program quits if it is.
         print('fni() KeyError')
+        quit()
     except UnboundLocalError:
-        print('fni() UnboundLocalError')
+        return 0
 
-def createorder(items):
-    id = findnextindex()
-    orders[id]=items
-    #print(f'createorder{orders}')
-    # with open('orderslist.txt','a') as f:
-    #     f.write(id,orders[id])
-
-def getitems():
+def getitems(): # prompts input for five items
     items=[]
     print('Please enter five items.')
     try:
@@ -59,8 +50,8 @@ def getindex():
     try:
         print('Please enter your order ID')
         i = int(input('>>>'))
-        valid = orders[i]
-        print(valid)
+        orders[i]
+        return i
     except KeyError:
         print('KeyError')
         getindex()
@@ -68,18 +59,12 @@ def getindex():
         print('ValueError')
         getindex()
 
-def modifyorder(index,items):
-    orders[index]=items
-
 def printall(): # Print orders dictionary
     for i in orders:
-        print('printall',i,orders[i])
+        print(i,orders[i])
 
 def writeto():
-    print(f'orders: {orders} ')
-    print(f'orders.items {orders.items()}')
     s_orders = dict(sorted(orders.items()))
-    print(f's_orders printed = {s_orders}')
     with open('orderslist.txt','w') as f:
         for i in s_orders:
             f.write(str(i)+':'+s_orders[i][0]+', ')
@@ -89,8 +74,16 @@ def writeto():
             f.write(s_orders[i][4])
             f.write('\n')
 
+def createorder(items):
+    id = findnextindex()
+    modifyorder(id,items)
+
+def modifyorder(index,items):
+    orders[index]=items
+
 #@profile
 def main():
+    # fetch() see bottom of program
     choice = input('Menu\n[1]Create Order\n[2]Modify Order\n[3]Delete Order\n[4]View Order\n[0]Cancel\n>>>')
 
     if choice == '1': # Create Order
@@ -102,14 +95,16 @@ def main():
         writeto()
 
     elif choice == '2': # Modify Order
-        index = int(input('Please enter your order ID\n>>>'))
+        printall()
+        index = getindex()
         print(orders[index])
         items=getitems()
         modifyorder(index,items)
         writeto()
 
     elif choice == '3': # Delete Order
-        index = int(input('Please enter your order ID\n>>>'))
+        printall()
+        index = getindex()
         confirmation = str(input(f'Please type \"CONFIRM\" to  delete order {index}\n>>>'))
         if confirmation == 'CONFIRM':
             orders.pop(index)
@@ -118,10 +113,9 @@ def main():
         writeto()
 
     elif choice == '4': # View Order
-        index=getindex()
-        print(index,orders[index])
+        printall()
 
-    elif choice == '5': # skip to print orders
+    elif choice == '5': # used to run whatever is outside if statement - hidden (selects no option)
         pass
 
     elif choice == '0':
@@ -130,9 +124,11 @@ def main():
     else:
         print('Invalid choice')
         main()
-    
-    print(orders.items())
+
+        # main() # see comment below
 
 if __name__ == '__main__':
     fetch()
     main()
+    # can be run infinitely if main() is called at the end of main() (thus recursive) and will continue until option 0 is selected (Quit), list is updated after every iteration
+    # for this to work fetch must also be called at the start of main()
