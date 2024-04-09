@@ -18,8 +18,6 @@ def fetch():
             id=int(lines[i].split(':')[0])               # splits the ID and items, converts list index 0 (ID) to int
             items=lines[i].split(':')[1].split(',')      # removes first two characters and splits by ', '; outputs a list of items
             orders[id] = items
-    # for i in lines:
-    #     orders[id]=items
 
 @profile
 def findnextindex():    # Find next available index in orders to add an value to

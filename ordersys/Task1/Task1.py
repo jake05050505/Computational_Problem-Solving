@@ -16,8 +16,6 @@ def fetch(): # reads all data from respective orderslist.txt and formats it into
             id=int(lines[i].split(':')[0])                  # splits the ID and items, converts list index 0 (ID) to int
             items=lines[i].split(':')[1].split(',')    # splits ID and items, takes list index 1 (items) and splits by ', '; outputs a list of items
             orders[id] = items
-    for i in lines:
-        orders[id]=items
 
 def findnextindex():    # Find next available index in orders to add an value to AFTER fetch() has been completed
     try:                # this try,except statement returns 0 if there are no pairs in the dictionary to check
