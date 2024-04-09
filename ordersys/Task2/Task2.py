@@ -10,6 +10,7 @@ inventory={1:'Adhesive tape',2:'Alcohol wipes',3:'Antihistamine tablets',4:'Elas
 orders={} # Initialize new dictionaries to prevent errors
 s_orders={}
 
+@profile
 def fetch():
     with open('orderslist.txt','r') as f:       # reads orderslist.txt and converts into machine-readable format
         lines=f.read().splitlines()
@@ -20,6 +21,7 @@ def fetch():
     # for i in lines:
     #     orders[id]=items
 
+@profile
 def findnextindex():    # Find next available index in orders to add an value to
     try:                # this try,except statement returns 0 if there are no pairs in the dictionary to check, used for debugging as the dictionary should never be empty (it should contain index=None for empty entries)
         for index in range(len(orders)):
@@ -32,6 +34,7 @@ def findnextindex():    # Find next available index in orders to add an value to
     except UnboundLocalError:
         return 0
 
+@profile
 def getitems(): # prompts input for five items
     items=[]
     print('Please enter five items.')
@@ -46,6 +49,7 @@ def getitems(): # prompts input for five items
         getitems()
     return items
 
+@profile
 def getindex():
     try:
         print('Please enter your order ID')
@@ -59,10 +63,12 @@ def getindex():
         print('ValueError')
         getindex()
 
+@profile
 def printall(): # Print orders dictionary
     for i in orders:
         print(i,orders[i])
 
+@profile
 def writeto():
     s_orders = dict(sorted(orders.items()))
     with open('orderslist.txt','w') as f:
@@ -74,10 +80,12 @@ def writeto():
             f.write(s_orders[i][4])
             f.write('\n')
 
+@profile
 def createorder(items):
     id = findnextindex()
     modifyorder(id,items)
 
+@profile
 def modifyorder(index,items):
     orders[index]=items
 

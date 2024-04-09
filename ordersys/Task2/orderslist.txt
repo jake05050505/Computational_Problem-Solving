@@ -1,3 +1,3 @@
 0:Instant cold packs,Thermometers,Alcohol wipes,Sterile Gauze Pads,Adhesive tape
-1:Alcohol wipes,Elastic Bandages,Gloves (latex),Hydrogen peroxide soln,Paracetomol & Ibuprofen
-2:Paracetomol & Ibuprofen,Plasters,Scissors,Sterile Gauze Pads,Thermometers
+1:Instant cold packs,Hydrogen peroxide soln,Elastic Bandages,Antihistamine tablets,Epinephrine Injector (EpiPen)
+3:Epinephrine Injector (EpiPen),Adhesive tape,Alcohol wipes,Elastic Bandages,Adhesive tape
