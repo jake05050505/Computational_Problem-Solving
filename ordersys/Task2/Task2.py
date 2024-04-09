@@ -81,9 +81,9 @@ def createorder(items):
 def modifyorder(index,items):
     orders[index]=items
 
-#@profile
+@profile
 def main():
-    # fetch() see bottom of program
+    # fetch() see bottom of program for usage
     choice = input('Menu\n[1]Create Order\n[2]Modify Order\n[3]Delete Order\n[4]View Order\n[0]Cancel\n>>>')
 
     if choice == '1': # Create Order
