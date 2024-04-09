@@ -17,8 +17,8 @@ def fetch():
             id=int(lines[i].split(':')[0])               # splits the ID and items, converts list index 0 (ID) to int
             items=lines[i].split(':')[1].split(',')      # removes first two characters and splits by ', '; outputs a list of items
             orders[id] = items
-    for i in lines:
-        orders[id]=items
+    # for i in lines:
+    #     orders[id]=items
 
 def findnextindex():    # Find next available index in orders to add an value to
     try:                # this try,except statement returns 0 if there are no pairs in the dictionary to check, used for debugging as the dictionary should never be empty (it should contain index=None for empty entries)
@@ -26,8 +26,8 @@ def findnextindex():    # Find next available index in orders to add an value to
             if index not in orders:
                 return index
         return index+1
-    except KeyError: # this error should NEVER be raised, program quits if it is.
-        print('fni() KeyError')
+    except KeyError: # this error should NEVER be raised, program quits if raised.
+        print('fni() KeyError') # lets the user/dev know that this has been raised for debug
         quit()
     except UnboundLocalError:
         return 0
@@ -67,10 +67,10 @@ def writeto():
     s_orders = dict(sorted(orders.items()))
     with open('orderslist.txt','w') as f:
         for i in s_orders:
-            f.write(str(i)+':'+s_orders[i][0]+', ')
-            f.write(s_orders[i][1]+', ')
-            f.write(s_orders[i][2]+', ')
-            f.write(s_orders[i][3]+', ')
+            f.write(str(i)+':'+s_orders[i][0]+',')
+            f.write(s_orders[i][1]+',')
+            f.write(s_orders[i][2]+',')
+            f.write(s_orders[i][3]+',')
             f.write(s_orders[i][4])
             f.write('\n')
 
