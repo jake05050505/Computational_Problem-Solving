@@ -14,8 +14,8 @@ def fetch():
     with open('orderslist.txt','r') as f:       # reads orderslist.txt and converts into machine-readable format
         lines=f.read().splitlines()
         for i in range(len(lines)):
-            id=int(lines[i][0].split(': ')[0])   # function scope # splits the ID from start of list, converts list index 0 (ID) to int
-            items=lines[i][2:].split(', ')      # removes first two characters and splits by ', '; outputs a list of items
+            id=int(lines[i].split(':')[0])               # splits the ID and items, converts list index 0 (ID) to int
+            items=lines[i].split(':')[1].split(',')      # removes first two characters and splits by ', '; outputs a list of items
             orders[id] = items
     for i in lines:
         orders[id]=items
