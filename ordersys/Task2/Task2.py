@@ -10,7 +10,7 @@ inventory={1:'Adhesive tape',2:'Alcohol wipes',3:'Antihistamine tablets',4:'Elas
 orders={} # Initialize new dictionaries to prevent errors
 s_orders={}
 
-@profile
+#@profile
 def fetch():
     with open('orderslist.txt','r') as f:       # reads orderslist.txt and converts into machine-readable format
         lines=f.read().splitlines()
@@ -19,20 +19,20 @@ def fetch():
             items=lines[i].split(':')[1].split(',')      # removes first two characters and splits by ', '; outputs a list of items
             orders[id] = items
 
-@profile
+#@profile
 def findnextindex():    # Find next available index in orders to add an value to
     try:                # this try,except statement returns 0 if there are no pairs in the dictionary to check, used for debugging as the dictionary should never be empty (it should contain index=None for empty entries)
         for index in range(len(orders)):
             if index not in orders:
                 return index
         return index+1
-    except KeyError: # this error should NEVER be raised, program quits if raised.
+    except KeyError: # this error should never be raised, program quits if raised.
         print('fni() KeyError') # lets the user/dev know that this has been raised for debug
         quit()
     except UnboundLocalError:
         return 0
 
-@profile
+#@profile
 def getitems(): # prompts input for five items
     items=[]
     print('Please enter five items.')
@@ -47,7 +47,7 @@ def getitems(): # prompts input for five items
         getitems()
     return items
 
-@profile
+#@profile
 def getindex():
     try:
         print('Please enter your order ID')
@@ -61,12 +61,12 @@ def getindex():
         print('ValueError')
         getindex()
 
-@profile
+#@profile
 def printall(): # Print orders dictionary
     for i in orders:
         print(i,orders[i])
 
-@profile
+#@profile
 def writeto():
     s_orders = dict(sorted(orders.items()))
     with open('orderslist.txt','w') as f:
@@ -78,16 +78,16 @@ def writeto():
             f.write(s_orders[i][4])
             f.write('\n')
 
-@profile
+#@profile
 def createorder(items):
     id = findnextindex()
     modifyorder(id,items)
 
-@profile
+#@profile
 def modifyorder(index,items):
     orders[index]=items
 
-@profile
+#@profile
 def main():
     # fetch() see bottom of program for usage
     choice = input('Menu\n[1]Create Order\n[2]Modify Order\n[3]Delete Order\n[4]View Order\n[0]Cancel\n>>>')
