@@ -1,6 +1,7 @@
 from memory_profiler import profile
-# from prettytable import PrettyTable
+# from prettytable import PrettyTable # Used for task 2
 
+# Used for task 2
 # viewinventory = PrettyTable(['1: Adhesive tape','2: Alcohol wipes','3: Antihistamine tablets','4: Elastic Bandages','5: Epinephrine Injector (EpiPen)']) # Inventory
 # viewinventory.add_row(['6: Gloves (latex)','7: Gloves (non-latex)','8: Hydrogen peroxide solṉ','9: Instant cold packs','10: Paracetomol & Ibuprofen'], divider=True)
 # viewinventory.add_row(['11: Plasters','12: Scissors','13: Sterile Gauze Pads','14: Thermometers','15: Tweezers'], divider=True)
@@ -25,11 +26,11 @@ def findnextindex():    # Find next available index in orders to add an value to
         return index+1
     except UnboundLocalError:
         return 0
-    except KeyError: # This error should NEVER be raised and so prints out the error
-        print('fni() KeyError')
+    except KeyError: # This error shouldn't be raised under normal conditions.
+        print('fni() KeyError') # Informs the user that there was a KeyError in findnextindex() - fni() shorthand
         quit() # Just a failsafe, if something were to happen such as orderslist.txt being erased after an error, this stops it.
 
-def getitems(): # Asks for five inputs and gets five inputs, if an erroneous or invalid input ever occurs, calls and restarts fn again, getting 5 new inputs
+def getitems(): # Asks for five inputs and gets five inputs, if an erroneous or invalid input ever occurs, calls and restarts fn, getting 5 new inputs
     items=[]
     print('Please enter five items.')
     try:
@@ -43,10 +44,11 @@ def getitems(): # Asks for five inputs and gets five inputs, if an erroneous or 
         getitems()
     return items
 
-def getindex(): # Was used for View Order
+def getindex(): # Used in delete order
     try:
         print('Please enter your order ID')
         i = int(input('>>>'))
+        orders[i]
         return i
     except KeyError:
         print('KeyError')
@@ -55,7 +57,7 @@ def getindex(): # Was used for View Order
         print('ValueError')
         getindex()
 
-def writeto():
+def writeto(): # Wipes orderslist.txt and writes all existing and new orders
     s_orders = dict(sorted(orders.items()))
     with open('orderslist.txt','w') as f:
         for i in s_orders:
@@ -83,25 +85,24 @@ def main():
     # fetch() # see comment under this function
     choice = input('Menu\n[1]Create Order\n[2]Modify Order\n[3]Delete Order\n[4]View Orders\n[0]Quit\n>>>')
 
+    # Create and Modify both call functions with their respective names because they take items as an input, this was done in an attempt to visually clean up script
     if choice == '1': # Create Order
         items=[]
-        # print(viewinventory)
+        # print(viewinventory) # Only used in task 2
         items = getitems()
         createorder(items)
 
-    # Create and Modify both call functions with their respective names because they take items as an input
-
     elif choice == '2': # Modify Order or Create order using custom ID
         printall()
-        index = int(input('Please enter your order ID\n>>>'))
+        index = getindex()
         # print(viewinventory)
         items=getitems()
         modifyorder(index,items)
 
     elif choice == '3': # Delete Order
         printall()
-        index = int(input('Please enter your order ID\n>>>'))
-        confirmation = str(input(f'Please type \"CONFIRM\" to  delete order {index}\n>>>'))
+        index = getindex()
+        confirmation = str(input(f'Please type \"CONFIRM\" to delete order {index}\n>>>'))
         if confirmation == 'CONFIRM':
             orders.pop(index)
             print(f'Order {index} was deleted.')
