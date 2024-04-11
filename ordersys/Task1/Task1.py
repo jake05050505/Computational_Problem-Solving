@@ -68,10 +68,6 @@ def writeto(): # Wipes orderslist.txt and writes all existing and new orders
             f.write(s_orders[i][4])
             f.write('\n')
 
-def createorder(items): # Creates an order using items as a parameter, these will be input using getitems()
-    id = findnextindex()
-    modifyorder(id,items)
-
 def modifyorder(index,items):
     orders[index]=items
     writeto()
@@ -88,9 +84,10 @@ def main():
     # Create and Modify both call functions with their respective names because they take items as an input, this was done in an attempt to visually clean up script
     if choice == '1': # Create Order
         items=[]
+        id = findnextindex()
         # print(viewinventory) # Only used in task 2
         items = getitems()
-        createorder(items)
+        modifyorder(id,items)
 
     elif choice == '2': # Modify Order or Create order using custom ID
         printall()
